@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35514.174 d17.12
+VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CesiNewsApi", "CesiNewsApi\CesiNewsApi.csproj", "{C1827618-C1FA-4002-8FDA-178D5AD91C01}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CesiNewsModel", "CesiNewsModel\CesiNewsModel.csproj", "{C8619F0E-2961-49CC-B73D-48456127EC7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CesiNewsInfrastructure", "CesiNewsInfrastructure\CesiNewsInfrastructure.csproj", "{31082BD1-C1DF-45A4-A681-9936CA50BF6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C8619F0E-2961-49CC-B73D-48456127EC7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8619F0E-2961-49CC-B73D-48456127EC7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8619F0E-2961-49CC-B73D-48456127EC7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31082BD1-C1DF-45A4-A681-9936CA50BF6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31082BD1-C1DF-45A4-A681-9936CA50BF6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31082BD1-C1DF-45A4-A681-9936CA50BF6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31082BD1-C1DF-45A4-A681-9936CA50BF6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -27,7 +27,11 @@ namespace CesiNewsApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Article>> GetArticle(int id)
         {
-            var article = await _context.Articles.FindAsync(id);
+            var article = await _context.Articles
+                //.Include("Categories")
+                //.Include("Support")
+                .Where(a => a.Id==id)
+                .FirstOrDefaultAsync();
 
             if (article == null)
             {
