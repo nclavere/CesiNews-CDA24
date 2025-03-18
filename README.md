@@ -1,1 +1,3 @@
 # CesiNews-CDA24
+
+Second projet fil rouge du cours C# pour les CDA 24 du CESI Pau ...
