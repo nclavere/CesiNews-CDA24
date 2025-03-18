@@ -1,3 +1,5 @@
+using CesiNewsDomain.Services;
+using CesiNewsInfrastructure.Repositories;
 using CesiNewsModel.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +14,14 @@ builder.Services.AddDbContext<NewsDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 // Add services to the container.
+builder.Services.AddScoped<SupportRepository>();
+builder.Services.AddScoped<TexteRepository>();
+builder.Services.AddScoped<VideoRepository>();
+builder.Services.AddScoped<CategorieRepository>();
+builder.Services.AddScoped<ArticleRepository>();
+builder.Services.AddScoped<SupportService>();
+builder.Services.AddScoped<CategorieService>();
+builder.Services.AddScoped<ArticleService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -35,13 +35,13 @@ namespace CesiNewsApi.Controllers
 
         // PUT: api/Supports/Texte/5
         [HttpPut("Texte/{id}")]
-        public async Task<Support> PutSupport(int id, Texte support) =>
+        public async Task<Support?> PutSupport(int id, Texte support) =>
                await _supportService.UpdateTexte(id, support);
 
 
         // PUT: api/Supports/Video/5
         [HttpPut("Video/{id}")]
-        public async Task<Support> PutSupport(int id, Video support) =>
+        public async Task<Support?> PutSupport(int id, Video support) =>
             await _supportService.UpdateVideo(id, support);
 
         // POST: api/Supports/Texte
