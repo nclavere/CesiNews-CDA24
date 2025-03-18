@@ -1,13 +1,12 @@
-﻿using CesiNewsInfrastructure.Dto;
-using CesiNewsModel.Context;
+﻿using CesiNewsDomain.Services;
+using CesiNewsInfrastructure.Dto;
 using CesiNewsModel.Entities;
-using CesiNewsInfrastructure.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using CesiNewsDomain.Services;
 
 namespace CesiNewsApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ArticlesController : ControllerBase

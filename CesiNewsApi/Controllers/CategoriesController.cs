@@ -1,11 +1,11 @@
 ﻿using CesiNewsDomain.Services;
-using CesiNewsModel.Context;
 using CesiNewsModel.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CesiNewsApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase

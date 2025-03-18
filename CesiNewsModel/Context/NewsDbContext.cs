@@ -1,8 +1,9 @@
 ﻿using CesiNewsModel.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CesiNewsModel.Context;
-public class NewsDbContext : DbContext
+public class NewsDbContext : IdentityDbContext<User>
 {
     public virtual DbSet<Categorie> Categories { get; set; } = null!;
     public virtual DbSet<Article> Articles { get; set; } = null!;
