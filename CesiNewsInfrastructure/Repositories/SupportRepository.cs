@@ -19,5 +19,10 @@ public class SupportRepository
     public async Task<Support?> GetSupport(int id)=>
         await _context.Supports.FindAsync(id);
 
+    public async Task Delete(Support support)
+    {
+        _context.Supports.Remove(support);
+        await _context.SaveChangesAsync();
+    }
 
 }

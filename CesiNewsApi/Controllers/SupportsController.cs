@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CesiNewsModel.Context;
 using CesiNewsModel.Entities;
+using CesiNewsDomain.Services;
 
 namespace CesiNewsApi.Controllers
 {
@@ -14,139 +15,50 @@ namespace CesiNewsApi.Controllers
     [ApiController]
     public class SupportsController : ControllerBase
     {
-        private readonly NewsDbContext _context;
+        private readonly SupportService _supportService;
 
-        public SupportsController(NewsDbContext context)
+        public SupportsController(SupportService supportService)
         {
-            _context = context;
+            _supportService = supportService;
         }
 
         // GET: api/Supports
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Support>>> GetSupports()
-        {
-            return await _context.Supports.ToListAsync();
-        }
+        public async Task<IEnumerable<Support>> GetSupports() => 
+            await _supportService.GetSupports();
 
         // GET: api/Supports/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Support>> GetSupport(int id)
-        {
-            var support = await _context.Supports.FindAsync(id);
+        public async Task<Support?> GetSupport(int id) =>
+             await _supportService.GetSupport(id);
 
-            if (support == null)
-            {
-                return NotFound();
-            }
-
-            return support;
-        }
 
         // PUT: api/Supports/Texte/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("Texte/{id}")]
-        public async Task<IActionResult> PutSupport(int id, Texte support)
-        {
-            if (id != support.Id)
-            {
-                return BadRequest();
-            }
+        public async Task<Support> PutSupport(int id, Texte support) =>
+               await _supportService.UpdateTexte(id, support);
 
-            _context.Entry(support).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SupportExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
 
         // PUT: api/Supports/Video/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("Video/{id}")]
-        public async Task<IActionResult> PutSupport(int id, Video support)
-        {
-            if (id != support.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(support).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SupportExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
+        public async Task<Support> PutSupport(int id, Video support) =>
+            await _supportService.UpdateVideo(id, support);
 
         // POST: api/Supports/Texte
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Route("texte")]
-        public async Task<ActionResult<Support>> PostSupport(Texte support)
-        {
-            _context.Supports.Add(support);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetSupport", new { id = support.Id }, support);
-        }
+        public async Task<Support?> PostSupport(Texte support) =>
+               await _supportService.CreateTexte(support);
 
         // POST: api/Supports/Video
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Route("video")]
-        public async Task<ActionResult<Support>> PostSupport(Video support)
-        {
-            _context.Supports.Add(support);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetSupport", new { id = support.Id }, support);
-        }
+        public async Task<Support?> PostSupport(Video support) =>
+               await _supportService.CreateVideo(support);
 
         // DELETE: api/Supports/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSupport(int id)
-        {
-            var support = await _context.Supports.FindAsync(id);
-            if (support == null)
-            {
-                return NotFound();
-            }
-
-            _context.Supports.Remove(support);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool SupportExists(int id)
-        {
-            return _context.Supports.Any(e => e.Id == id);
-        }
+        public async Task<bool> DeleteSupport(int id) =>
+               await _supportService.DeleteSupport(id);
     }
 }

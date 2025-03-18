@@ -12,21 +12,16 @@ public class TexteRepository
         _context = context;
     }
 
-    public async Task Add(Texte support)
+    public async Task<int> Add(Texte support)
     {
         _context.Textes.Add(support);
         await _context.SaveChangesAsync();
+        return support.Id;
     }
 
     public async Task Update(Texte support)
     {
         _context.Entry(support).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task Delete(Texte support)
-    {
-        _context.Textes.Remove(support);
         await _context.SaveChangesAsync();
     }
 

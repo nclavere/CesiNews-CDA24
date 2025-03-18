@@ -12,10 +12,11 @@ public class VideoRepository
         _context = context;
     }
 
-    public async Task Add(Video support)
+    public async Task<int> Add(Video support)
     {
         _context.Videos.Add(support);
         await _context.SaveChangesAsync();
+        return support.Id;
     }
 
     public async Task Update(Video support)
@@ -23,11 +24,4 @@ public class VideoRepository
         _context.Entry(support).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
-
-    public async Task Delete(Video support)
-    {
-        _context.Videos.Remove(support);
-        await _context.SaveChangesAsync();
-    }
-
 }
