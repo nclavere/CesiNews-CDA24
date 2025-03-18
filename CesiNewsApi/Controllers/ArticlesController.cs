@@ -1,5 +1,7 @@
-﻿using CesiNewsModel.Context;
+﻿using CesiNewsInfrastructure.Dto;
+using CesiNewsModel.Context;
 using CesiNewsModel.Entities;
+using CesiNewsInfrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,12 +27,13 @@ namespace CesiNewsApi.Controllers
 
         // GET: api/Articles/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Article>> GetArticle(int id)
+        public async Task<ActionResult<ArticleDto>> GetArticle(int id)
         {
             var article = await _context.Articles
-                //.Include("Categories")
-                //.Include("Support")
+                .Include("Categories")
+                .Include("Support")
                 .Where(a => a.Id==id)
+                .Select(a => a.ToDto())
                 .FirstOrDefaultAsync();
 
             if (article == null)

@@ -1,6 +1,5 @@
 ﻿using CesiNewsInfrastructure.Dto;
 using CesiNewsModel.Entities;
-using System.Runtime.CompilerServices;
 
 namespace CesiNewsInfrastructure.Extensions;
 public static class ArticleExtension

@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CesiNewsInfrastructure\CesiNewsInfrastructure.csproj" />
     <ProjectReference Include="..\CesiNewsModel\CesiNewsModel.csproj" />
   </ItemGroup>
 
