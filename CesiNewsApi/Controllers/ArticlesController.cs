@@ -4,6 +4,7 @@ using CesiNewsModel.Entities;
 using CesiNewsInfrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using CesiNewsDomain.Services;
 
 namespace CesiNewsApi.Controllers
 {
@@ -11,142 +12,42 @@ namespace CesiNewsApi.Controllers
     [ApiController]
     public class ArticlesController : ControllerBase
     {
-        private readonly NewsDbContext _context;
+        private readonly ArticleService _articleService;
 
-        public ArticlesController(NewsDbContext context)
+        public ArticlesController(ArticleService articleService)
         {
-            _context = context;
+            _articleService = articleService;
         }
 
         // GET: api/Articles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Article>>> GetArticles()
-        {
-            return await _context.Articles.ToListAsync();
-        }
+        public async Task<IEnumerable<ArticleDto>> GetArticles() =>
+            await _articleService.GetArticles();
 
         // GET: api/Articles/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ArticleDto>> GetArticle(int id)
-        {
-            var article = await _context.Articles
-                .Include("Categories")
-                .Include("Support")
-                .Where(a => a.Id==id)
-                .Select(a => a.ToDto())
-                .FirstOrDefaultAsync();
-
-            if (article == null)
-            {
-                return NotFound();
-            }
-
-            return article;
-        }
+        public async Task<ArticleDto?> GetArticle(int id) =>
+            await _articleService.GetArticle(id);
 
         // PUT: api/Articles/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutArticle(int id, Article article)
-        {
-            if (id != article.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(article).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ArticleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
+        public async Task<ArticleDto?> PutArticle(int id, Article article) =>
+            await _articleService.PutArticle(id, article);
 
         // PUT: api/Articles/5/categories/1
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}/categories/{idCategory}")]
-        public async Task<IActionResult> PutArticleAddCategory(int id, int idCategory)
-        {
-            var article = await _context.Articles
-                .Include("Categories")
-                .Where(a => a.Id == id)
-                .FirstOrDefaultAsync();
-            if(article == null)
-            {
-                return NotFound();
-            }
-
-            var categorie = await _context.Categories.FindAsync(idCategory);
-            if(categorie == null)
-            {
-                return NotFound();
-            }
-
-            article.Categories!.Add(categorie);
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ArticleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
+        public async Task<bool> PutArticleAddCategory(int id, int idCategory) =>
+            await _articleService.AddCategoryToArticle(id, idCategory);
 
         // POST: api/Articles
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Article>> PostArticle(Article article)
-        {
-            _context.Articles.Add(article);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetArticle", new { id = article.Id }, article);
-        }
+        public async Task<ArticleDto?> PostArticle(Article article) =>
+            await _articleService.PostArticle(article);
 
         // DELETE: api/Articles/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteArticle(int id)
-        {
-            var article = await _context.Articles.FindAsync(id);
-            if (article == null)
-            {
-                return NotFound();
-            }
-
-            _context.Articles.Remove(article);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool ArticleExists(int id)
-        {
-            return _context.Articles.Any(e => e.Id == id);
-        }
+        public async Task<bool> DeleteArticle(int id) =>
+            await _articleService.DeleteArticle(id);
+        
     }
 }

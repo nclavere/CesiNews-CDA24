@@ -1,4 +1,6 @@
-﻿using CesiNewsModel.Context;
+﻿using CesiNewsInfrastructure.Dto;
+using CesiNewsInfrastructure.Extensions;
+using CesiNewsModel.Context;
 using CesiNewsModel.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,15 +14,22 @@ public class ArticleRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Article>> GetArticle()
+    public async Task<IEnumerable<ArticleDto>> GetArticles()
     {
-        return await _context.Articles.ToListAsync();
+        return await _context.Articles
+            .Select(a => a.ToDto())
+            .ToListAsync();
     }
 
-    public async Task<Article?> GetArticle(int id)
+    public async Task<ArticleDto?> GetArticle(int id)
     {
-        return await _context.Articles.FindAsync(id);
-    }    
+        return await _context.Articles
+            .Include("Categories")
+            .Include("Support")
+            .Where(a => a.Id == id)
+            .Select(a => a.ToDto())
+            .FirstOrDefaultAsync();
+    }
 
     public async Task<int> Add(Article article)
     {
@@ -35,9 +44,37 @@ public class ArticleRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteCategorie(Article article)
+    public async Task<bool> AddCategoryToArticle(int id, int idCategory)
     {
+        var article = await _context.Articles
+            .Include("Categories")
+            .Where(a => a.Id == id)
+            .FirstOrDefaultAsync();
+        if (article == null)
+        {
+            return false;
+        }
+
+        var categorie = await _context.Categories.FindAsync(idCategory);
+        if (categorie == null)
+        {
+            return false;
+        }
+
+        article.Categories!.Add(categorie);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> Delete(int id)
+    {
+        var article = await _context.Articles.FindAsync(id);
+        if (article == null)
+        {
+            return false;
+        }
         _context.Articles.Remove(article);
         await _context.SaveChangesAsync();
+        return true;
     }
 }

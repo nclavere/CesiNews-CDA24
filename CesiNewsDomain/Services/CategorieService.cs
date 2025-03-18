@@ -37,6 +37,7 @@ public class CategorieService
         await _categorieRepository.Update(categorie);
         return await _categorieRepository.GetCategorie(id);
     }
+
     public async Task<bool> DeleteCategorie(int id)
     {
         var categorie = await _categorieRepository.GetCategorie(id);
