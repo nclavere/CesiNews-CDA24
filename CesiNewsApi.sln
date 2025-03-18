@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CesiNewsModel", "CesiNewsMo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CesiNewsInfrastructure", "CesiNewsInfrastructure\CesiNewsInfrastructure.csproj", "{31082BD1-C1DF-45A4-A681-9936CA50BF6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CesiNewsDomain", "CesiNewsDomain\CesiNewsDomain.csproj", "{C841F89A-4FFE-408D-8A1D-4EF5D307C988}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{31082BD1-C1DF-45A4-A681-9936CA50BF6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31082BD1-C1DF-45A4-A681-9936CA50BF6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31082BD1-C1DF-45A4-A681-9936CA50BF6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C841F89A-4FFE-408D-8A1D-4EF5D307C988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C841F89A-4FFE-408D-8A1D-4EF5D307C988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C841F89A-4FFE-408D-8A1D-4EF5D307C988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C841F89A-4FFE-408D-8A1D-4EF5D307C988}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
