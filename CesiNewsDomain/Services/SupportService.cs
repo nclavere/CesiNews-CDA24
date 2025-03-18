@@ -54,14 +54,26 @@ public class SupportService
     }
 
 
-    public async Task<Support> UpdateTexte(int id, Texte support)
+    public async Task<Support?> UpdateTexte(int id, Texte support)
     {
-        throw new NotImplementedException();
+        if(id != support.Id)
+        {
+            throw new ArgumentException();
+        }
+
+        await _texteRepository.Update(support);
+        return await _supportRepository.GetSupport(id);
     }
 
-    public async Task<Support> UpdateVideo(int id, Video support)
+    public async Task<Support?> UpdateVideo(int id, Video support)
     {
-        throw new NotImplementedException();
+        if (id != support.Id)
+        {
+            throw new ArgumentException();
+        }
+
+        await _videoRepository.Update(support);
+        return await _supportRepository.GetSupport(id);
     }
 }
 
