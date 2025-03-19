@@ -48,7 +48,7 @@ namespace CesiNewsBackofficeMVC.Controllers
         // GET: Articles/Create
         public IActionResult Create()
         {
-            ViewData["SupportId"] = new SelectList(_context.Supports, "Id", "Discriminator");
+            ViewData["SupportId"] = new SelectList(_context.Supports, "Id", "Libelle");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace CesiNewsBackofficeMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SupportId"] = new SelectList(_context.Supports, "Id", "Discriminator", article.SupportId);
+            ViewData["SupportId"] = new SelectList(_context.Supports, "Id", "Libelle", article.SupportId);
             return View(article);
         }
 
@@ -82,7 +82,9 @@ namespace CesiNewsBackofficeMVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["SupportId"] = new SelectList(_context.Supports, "Id", "Discriminator", article.SupportId);
+
+           
+            ViewData["SupportId"] = new SelectList(_context.Supports, "Id", "Libelle", article.SupportId);
             return View(article);
         }
 
@@ -118,7 +120,7 @@ namespace CesiNewsBackofficeMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SupportId"] = new SelectList(_context.Supports, "Id", "Discriminator", article.SupportId);
+            ViewData["SupportId"] = new SelectList(_context.Supports, "Id", "Libelle", article.SupportId);
             return View(article);
         }
 
