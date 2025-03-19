@@ -19,29 +19,6 @@ namespace CesiNewsBackofficeMVC.Controllers
             _context = context;
         }
 
-        // GET: Textes
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Textes.ToListAsync());
-        }
-
-        // GET: Textes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var texte = await _context.Textes
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (texte == null)
-            {
-                return NotFound();
-            }
-
-            return View(texte);
-        }
 
         // GET: Textes/Create
         public IActionResult Create()
@@ -60,7 +37,7 @@ namespace CesiNewsBackofficeMVC.Controllers
             {
                 _context.Add(texte);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "Supports");
             }
             return View(texte);
         }
@@ -111,43 +88,11 @@ namespace CesiNewsBackofficeMVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "Supports");
             }
             return View(texte);
         }
 
-        // GET: Textes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var texte = await _context.Textes
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (texte == null)
-            {
-                return NotFound();
-            }
-
-            return View(texte);
-        }
-
-        // POST: Textes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var texte = await _context.Textes.FindAsync(id);
-            if (texte != null)
-            {
-                _context.Textes.Remove(texte);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
         private bool TexteExists(int id)
         {

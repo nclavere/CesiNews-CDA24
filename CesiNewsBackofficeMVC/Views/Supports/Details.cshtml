@@ -19,6 +19,14 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    @if (Model is CesiNewsModel.Entities.Texte)
+    {
+        <a asp-controller="Textes" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    }
+    else
+    {
+        <a asp-controller="Videos" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    }
+    |
     <a asp-action="Index">Back to List</a>
 </div>

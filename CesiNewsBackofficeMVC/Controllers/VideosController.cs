@@ -19,29 +19,6 @@ namespace CesiNewsBackofficeMVC.Controllers
             _context = context;
         }
 
-        // GET: Videos
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Videos.ToListAsync());
-        }
-
-        // GET: Videos/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var video = await _context.Videos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (video == null)
-            {
-                return NotFound();
-            }
-
-            return View(video);
-        }
 
         // GET: Videos/Create
         public IActionResult Create()
@@ -60,7 +37,7 @@ namespace CesiNewsBackofficeMVC.Controllers
             {
                 _context.Add(video);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "Supports");
             }
             return View(video);
         }
@@ -111,44 +88,11 @@ namespace CesiNewsBackofficeMVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "Supports");
             }
             return View(video);
         }
-
-        // GET: Videos/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var video = await _context.Videos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (video == null)
-            {
-                return NotFound();
-            }
-
-            return View(video);
-        }
-
-        // POST: Videos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var video = await _context.Videos.FindAsync(id);
-            if (video != null)
-            {
-                _context.Videos.Remove(video);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
+                
         private bool VideoExists(int id)
         {
             return _context.Videos.Any(e => e.Id == id);
