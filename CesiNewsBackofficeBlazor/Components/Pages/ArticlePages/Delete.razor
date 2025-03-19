@@ -1,0 +1,75 @@
+﻿@page "/articles/delete"
+@using Microsoft.EntityFrameworkCore
+@using CesiNewsModel.Entities
+@inject IDbContextFactory<CesiNewsModel.Context.NewsDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Delete</PageTitle>
+
+<h1>Delete</h1>
+
+<p>Are you sure you want to delete this?</p>
+<div>
+    <h2>Article</h2>
+    <hr />
+    @if (article is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Titre</dt>
+            <dd class="col-sm-10">@article.Titre</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Resume</dt>
+            <dd class="col-sm-10">@article.Resume</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Contenu</dt>
+            <dd class="col-sm-10">@article.Contenu</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Auteur</dt>
+            <dd class="col-sm-10">@article.Auteur</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">DatePubli</dt>
+            <dd class="col-sm-10">@article.DatePubli</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">SupportId</dt>
+            <dd class="col-sm-10">@article.SupportId</dd>
+        </dl>
+        <EditForm method="post" Model="article" OnValidSubmit="DeleteArticle" FormName="delete" Enhance>
+            <button type="submit" class="btn btn-danger" disabled="@(article is null)">Delete</button> |
+            <a href="/articles">Back to List</a>
+        </EditForm>
+    }
+</div>
+
+@code {
+    private Article? article;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        article = await context.Articles.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (article is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    private async Task DeleteArticle()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Articles.Remove(article!);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/articles");
+    }
+}

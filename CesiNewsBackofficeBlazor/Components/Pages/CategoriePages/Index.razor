@@ -15,7 +15,7 @@
 </p>
 
 <QuickGrid Class="table" Items="context.Categories" Pagination="pagination">
-    <PropertyColumn Property="categorie => categorie.Libelle" />
+    <PropertyColumn Property="categorie => categorie.Libelle" Sortable="true" />
 
     <TemplateColumn Context="categorie">
         <a href="@($"categories/edit?id={categorie.Id}")">Edit</a> |

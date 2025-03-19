@@ -1,0 +1,91 @@
+﻿@page "/articles/create"
+@using CesiNewsModel.Context
+@using Microsoft.EntityFrameworkCore
+@using CesiNewsModel.Entities
+@inject IDbContextFactory<CesiNewsModel.Context.NewsDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>Article</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Article" OnValidSubmit="AddArticle" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="titre" class="form-label">Titre:</label> 
+                <InputText id="titre" @bind-Value="Article.Titre" class="form-control" /> 
+                <ValidationMessage For="() => Article.Titre" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="resume" class="form-label">Resume:</label> 
+                <InputText id="resume" @bind-Value="Article.Resume" class="form-control" /> 
+                <ValidationMessage For="() => Article.Resume" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="contenu" class="form-label">Contenu:</label> 
+                <InputText id="contenu" @bind-Value="Article.Contenu" class="form-control" /> 
+                <ValidationMessage For="() => Article.Contenu" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="auteur" class="form-label">Auteur:</label> 
+                <InputText id="auteur" @bind-Value="Article.Auteur" class="form-control" /> 
+                <ValidationMessage For="() => Article.Auteur" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="datepubli" class="form-label">DatePubli:</label> 
+                <InputDate id="datepubli" @bind-Value="Article.DatePubli" class="form-control" /> 
+                <ValidationMessage For="() => Article.DatePubli" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="supportid" class="form-label">SupportId:</label> 
+                @* <InputNumber id="supportid" @bind-Value="Article.SupportId" class="form-control" />  *@
+                <select id="supportid" @bind="Article.SupportId" class="form-control">
+                    @foreach (var support in Supports)
+                    {
+                        <option value="@support.Id">@support.Libelle</option>
+                    }
+                </select>
+                <ValidationMessage For="() => Article.SupportId" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/articles">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private Article Article { get; set; } = new();
+
+    private List<Support> Supports { get; set; } = new();
+
+    private NewsDbContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+        Supports = context.Supports.ToList();
+    }
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddArticle()
+    {
+        try {
+            context.Articles.Add(Article);
+            await context.SaveChangesAsync();
+            NavigationManager.NavigateTo("/articles");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+}

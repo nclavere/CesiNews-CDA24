@@ -1,0 +1,39 @@
+﻿@page "/articles"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using CesiNewsModel.Entities
+@using CesiNewsModel.Context
+@implements IAsyncDisposable
+@inject IDbContextFactory<CesiNewsModel.Context.NewsDbContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="articles/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.Articles.Include(a => a.Support)">
+    <PropertyColumn Property="article => article.Titre" />
+    <PropertyColumn Property="article => article.Resume" />
+    <PropertyColumn Property="article => article.Auteur" />
+    <PropertyColumn Property="article => article.Support!.Libelle" Title="Support" />
+
+    <TemplateColumn Context="article">
+        <a href="@($"articles/edit?id={article.Id}")">Edit</a> |
+        <a href="@($"articles/details?id={article.Id}")">Details</a> |
+        <a href="@($"articles/delete?id={article.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private NewsDbContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

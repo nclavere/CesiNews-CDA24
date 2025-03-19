@@ -1,0 +1,58 @@
+﻿@page "/articles/details"
+@using Microsoft.EntityFrameworkCore
+@using CesiNewsModel.Entities
+@inject IDbContextFactory<CesiNewsModel.Context.NewsDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>Article</h2>
+    <hr />
+    @if (article is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Titre</dt>
+            <dd class="col-sm-10">@article.Titre</dd>
+            <dt class="col-sm-2">Resume</dt>
+            <dd class="col-sm-10">@article.Resume</dd>
+            <dt class="col-sm-2">Contenu</dt>
+            <dd class="col-sm-10">@article.Contenu</dd>
+            <dt class="col-sm-2">Auteur</dt>
+            <dd class="col-sm-10">@article.Auteur</dd>
+            <dt class="col-sm-2">DatePubli</dt>
+            <dd class="col-sm-10">@article.DatePubli</dd>
+            <dt class="col-sm-2">Support</dt>
+            <dd class="col-sm-10">@article.Support?.Libelle</dd>
+        </dl>
+        <div>
+            <a href="@($"/articles/edit?id={article.Id}")">Edit</a> |
+            <a href="@($"/articles")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private Article? article;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        article = await context.Articles
+        .Include(a => a.Support)
+        .FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (article is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}
