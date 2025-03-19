@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CesiNewsDomain", "CesiNewsD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CesiNewsBackofficeMVC", "CesiNewsBackofficeMVC\CesiNewsBackofficeMVC.csproj", "{AF1D797D-40E6-4CE3-AA90-C437BA2C818E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CesiNewsBackofficeBlazor", "CesiNewsBackofficeBlazor\CesiNewsBackofficeBlazor.csproj", "{ABC4ED9A-0CE8-4860-A31D-6B796D8ED40C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{AF1D797D-40E6-4CE3-AA90-C437BA2C818E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF1D797D-40E6-4CE3-AA90-C437BA2C818E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF1D797D-40E6-4CE3-AA90-C437BA2C818E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABC4ED9A-0CE8-4860-A31D-6B796D8ED40C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABC4ED9A-0CE8-4860-A31D-6B796D8ED40C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABC4ED9A-0CE8-4860-A31D-6B796D8ED40C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABC4ED9A-0CE8-4860-A31D-6B796D8ED40C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

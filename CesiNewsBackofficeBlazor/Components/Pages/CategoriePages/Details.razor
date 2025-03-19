@@ -1,0 +1,46 @@
+﻿@page "/categories/details"
+@using Microsoft.EntityFrameworkCore
+@using CesiNewsModel.Entities
+@inject IDbContextFactory<CesiNewsModel.Context.NewsDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>Categorie</h2>
+    <hr />
+    @if (categorie is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Libelle</dt>
+            <dd class="col-sm-10">@categorie.Libelle</dd>
+        </dl>
+        <div>
+            <a href="@($"/categories/edit?id={categorie.Id}")">Edit</a> |
+            <a href="@($"/categories")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private Categorie? categorie;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        categorie = await context.Categories.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (categorie is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

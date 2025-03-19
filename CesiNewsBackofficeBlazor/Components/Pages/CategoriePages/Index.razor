@@ -1,0 +1,39 @@
+﻿@page "/categories"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using CesiNewsModel.Entities
+@using CesiNewsModel.Context
+@implements IAsyncDisposable
+@inject IDbContextFactory<CesiNewsModel.Context.NewsDbContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="categories/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.Categories" Pagination="pagination">
+    <PropertyColumn Property="categorie => categorie.Libelle" />
+
+    <TemplateColumn Context="categorie">
+        <a href="@($"categories/edit?id={categorie.Id}")">Edit</a> |
+        <a href="@($"categories/details?id={categorie.Id}")">Details</a> |
+        <a href="@($"categories/delete?id={categorie.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+<Paginator State="pagination" />
+
+@code {
+    private NewsDbContext context = default!;
+
+    private PaginationState pagination = new PaginationState { ItemsPerPage = 5 };
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

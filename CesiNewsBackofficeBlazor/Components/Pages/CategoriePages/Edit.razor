@@ -1,0 +1,89 @@
+﻿@page "/categories/edit"
+@using Microsoft.EntityFrameworkCore
+@using CesiNewsModel.Entities
+@inject IDbContextFactory<CesiNewsModel.Context.NewsDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>Categorie</h2>
+<hr />
+@if (Categorie is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Categorie" OnValidSubmit="UpdateCategorie" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="Categorie.Id" value="@Categorie.Id" />
+                <div class="mb-3">
+                    <label for="libelle" class="form-label">Libelle:</label>
+                    <InputText id="libelle" @bind-Value="Categorie.Libelle" class="form-control" />
+                    <ValidationMessage For="() => Categorie.Libelle" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/categories">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Categorie? Categorie { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Categorie ??= await context.Categories.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (Categorie is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateCategorie()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(Categorie!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!CategorieExists(Categorie!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/categories");
+    }
+
+    private bool CategorieExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Categories.Any(e => e.Id == id);
+    }
+}
